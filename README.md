@@ -1,36 +1,32 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Octen Merchant Dashboard
 
-## Getting Started
+Merchant operations UI for the existing NestJS API. The backend remains the source of truth for account authorization, order totals, inventory, payments, and ledger balances.
 
-First, run the development server:
+## Run locally
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. Copy `.env.example` to `.env.local` and set `BACKEND_API_URL` to the backend's `/api/v1` base URL. The default is `http://localhost:8000/api/v1`.
+2. Start the NestJS backend and make sure it is reachable from this Next.js server.
+3. Run `npm run dev` and open `http://localhost:3000`.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Merchant access uses the backend's `POST /auth/login`, `GET /auth/me`, `POST /auth/refresh`, and `POST /auth/logout` APIs. Access and rotating refresh tokens are stored in HttpOnly, SameSite cookies; browser code only calls the same-origin BFF.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Implemented API-backed areas
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Dashboard overview: orders, customers, products, deliveries, outstanding ledger, and payments.
+- Customers: list, details, and create.
+- Products and stock: list, details, create, activate/deactivate, and stock adjustments.
+- Orders: list, details, and CONFIRM/REJECT for PLACED orders; create invoices from CONFIRMED orders.
+- Invoices: list, details, and browser print.
+- Payments: list, details, and record.
+- Khata: outstanding balances.
+- Deliveries: list, details, schedule for confirmed orders, and update delivery status.
+- Routes: list and create.
+- Notifications: unread count, list, mark one read, and mark all read.
 
-## Learn More
+## Backend capabilities not present in this repository
 
-To learn more about Next.js, take a look at the following resources:
+The NestJS app currently has no returns/damage or promotions module. Those pages explain this integration gap and do not create local placeholder records. Customer creation DTO does not accept a delivery-route assignment. Customer editing, product unit definitions/history, general delivery editing, route editing, and richer customer/payment filters are not implemented. Invoice generation also requires the backend's supplier GST environment values.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Verification
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`npm run lint`, `npx tsc --noEmit`, and `npm run build` verify lint, types, and the production build. The build script uses Next.js's Webpack builder because the installed Turbopack CSS worker exits before connecting in this Windows environment.

@@ -132,3 +132,14 @@
 
 body { background: var(--background); }
 ::selection { background: oklch(0.88 0.08 263); }
+
+@media print {
+  @page { size: A4 portrait; margin: 14mm; }
+  body { background: #fff !important; }
+  body * { visibility: hidden !important; }
+  .invoice-print-root, .invoice-print-root * { visibility: visible !important; }
+  .invoice-print-root { position: absolute; inset: 0 auto auto 0; width: 100%; color: #111827 !important; }
+  .invoice-print-root section, .invoice-print-root header { break-inside: avoid; }
+  .invoice-print-root table { border-collapse: collapse; }
+  .invoice-print-root th, .invoice-print-root td { border-bottom: 1px solid #d1d5db; }
+}

@@ -1,7 +1,9 @@
 {
-  "name": "wholesale-admin",
+  "name": "octen-admin",
   "version": "0.1.0",
   "private": true,
+  "author": {"name": "Rahul Singh", "email": "rahul274301@gmail.com"},
+  "description": "A Next.js project with Tailwind CSS and TypeScript",
   "scripts": {
     "dev": "next dev",
     "build": "next build --webpack",

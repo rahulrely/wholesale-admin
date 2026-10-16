@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect } from 'react';
+import { use, useEffect } from 'react';
 
-export default function PrintTicketPage({ params }: { params: { id: string } }) {
+export default function PrintTicketPage({ params }: { params: Promise<{ id: string }> }) {
+  use(params);
   // Trigger print dialog once the DOM is fully rendered
   useEffect(() => {
     // Small timeout ensures styles, fonts, and assets are fully painted
@@ -21,7 +22,7 @@ export default function PrintTicketPage({ params }: { params: { id: string } }) 
         </h1>
         <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
           <div>
-            <strong>Ticket ID:</strong> {params.id}
+            <strong>Reference:</strong> Delivery ticket
           </div>
           <div>
             <strong>Status:</strong> Confirmed
